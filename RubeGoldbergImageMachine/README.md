@@ -5,16 +5,16 @@ This is an exploration and documentation of an Event-Driven and auto-scalling Ar
 \
 Before exploring the Architecture, a quick summary of what goes on here:
 1) An Image is dropped into an S3 Bucket.
-2) two processed images are returned; one rotated 90 degrees Clockwise, and the other 90 degrees Counter-Clockwise \
+2) Two processed images are returned: one rotated 90 degrees Clockwise, and the other 90 degrees Counter-Clockwise \
 Whats the big deal?      Well . . .
 
 We do not have to provision a server, so we are only using (and paying for) the compute as it's needed.
 
 and 
 
-This is scalable - one can certainly create this operation with a tiny program runing on a computer from 1999.  but how would it handle 2 Million requests in a five minute period?
+This is scalable - one can certainly create this operation with a tiny program runing on a computer from 1995,  but how would it handle 2 million requests in a five-minute period?
 
-The roation of the image process could be replaced with whatever process you want, it is fault-tolerent and scalable architecture that is impressive.
+The roation of the image process could be replaced with whatever process you want, it is the fault-tolerent and scalable architecture that is impressive.
 
 Lets get into the architecture.
 # Overview
@@ -34,4 +34,53 @@ This well documented configuration allows for:
 \
  Yes, our lambda functions can scale out to a maximum of 1000 Concurrent functions, but that would not be enough.
 \
- With the SQS handling and pushing the messages to our Lambdas functions, we have a very fault-tolerant approach which is garuenteeing delivery and receiving messages. Each lambda instance confirms that compute process is successful for each and every event on the SQS.
+ With the SQS handling and pushing the messages to our Lambdas functions, we have a very fault-tolerant approach which is garuenteeing delivery and receiving of messages. Each lambda instance confirms that compute process is successful for each and every event on the SQS.
+
+## Deployment (from the AWS console)
+Let’s begin by setting up the bucket, followed by the Lambdas, SQS, and then finally SNS.
+\
+Find the S3 service and create a bucket.
+\
+![](ReadMe_Files/S31.jpg)
+\
+![](ReadMe_Files/S32.jpg)
+\
+![](ReadMe_Files/S33.jpg)
+\
+(buckets have to have a lowercase name unique to all others on the AWS cloud) 
+\
+**note, to have a clean-look in the diagram there are two buckets for input and output. 
+\
+the concept is essentially the same, but we will be doing this whole process with one bucket separated into folders.
+\
+\
+Let's put the bucket down and sort out our Lambda Functions. \
+Now, our Lambda Functions will need to interact directly with three other services: our S3 Bucket, the SQS Queue, and Cloudwatch for logging. Let's create an IAM Role that has full permissions for these three services in order to quickly get this architecture running.
+\
+Ofcourse in a production settting, you would want to go back granulate the security policy to least amount of privledges neccissary to function. 
+\
+Open the IAM service and create a 'Role' \  We will set the permissions to the role, and later when we have our Lambda, we will give this role to it. 
+\
+![](ReadMe_Files/iam1.jpg)
+![](ReadMe_Files/iam2.jpg)
+\
+Entity Type : AWS Service \
+Use Case    : Lambda \
+\
+Now find and add the permissions to the role, it looks like this: \
+![](ReadMe_Files/iam3.jpg)
+\
+![](ReadMe_Files/iam4.jpg)
+\
+![](ReadMe_Files/iam5.jpg)
+\
+name this role something like: "ImageMachine_Lambda_Role"
+\
+With the role created, and these three permissions attached to it, we can now set up the lambda. \
+We will assign this role to the lambda, thereby giving it all of these permissions. (hopfully this is clear)
+
+## Lambda Deployment
+
+
+
+
