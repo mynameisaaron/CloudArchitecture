@@ -105,10 +105,10 @@ Here is the code. \
 **Notice that there are three conspicous variables at the top of the function. \
 make sure that the 'BucketName' variable - is the exact name of your bucket. \
 When creating the second Lambda, the counterclockwise lambda function, the variable 'FolderName' should be changed and the 'Angle' variable should be an integer of -270 \
-**Notice that nothing is saved and nothing will work until you hit 'Deploy'
 
 
-```
+
+```python
 import json
 import boto3
 from PIL import Image
@@ -153,4 +153,10 @@ def lambda_handler(event, context):
 
     return {'statusCode': 200, 'body': json.dumps('Processing complete')}
 ```
-**Notice that nothing is saved and nothing will work until you hit 'Deploy'
+**Notice that nothing is saved and nothing will work until you hit 'Deploy' \
+You should have two functions now, the 'RotateImageClockwise' function that we just made together, and the 'RotateCounterClock' that you figured out how to do using the same steps. \
+Our Lambdas are up. . .  Even if you have one Lambda up and you made it this far, the rest is a very quick and easy.
+\
+Let's finish this, starting with the SQS Queue, Followed by the SNS Topic, and finnaly the S3 event (all takes two seconds)
+
+## SQS/SNS Fanout Deployment
