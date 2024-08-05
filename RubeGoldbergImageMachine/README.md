@@ -96,5 +96,61 @@ Assign it the 'ImageMachine_Lambda_Role' which is the IAM Role that we had just 
  \
 ![](ReadMe_Files/lambda2.jpg) \
 ![](ReadMe_Files/lambda3.jpg) \
+ \
+With the Lambda created we can now quickly attach the new Pillow-Layer to the function and insert the code. \
+You can find a diagram of your Lambda on the screen and click the Layer area, find the new Pillow-Layer and your set \
+![](ReadMe_Files/lambda4.jpg)
+![](ReadMe_Files/lambda5.jpg)
+Here is the code. \
+**Notice that there are three conspicous variables at the top of the function. \
+make sure that the 'BucketName' variable - is the exact name of your bucket. \
+When creating the second Lambda, the counterclockwise lambda function, the variable 'FolderName' should be changed and the 'Angle' variable should be an integer of -270 \
+**Notice that nothing is saved and nothing will work until you hit 'Deploy'
 
 
+```
+import json
+import boto3
+from PIL import Image
+import io
+
+BucketName = 'therubegoldberg'
+FolderName = 'TwistedClockWise'
+Angle = -90
+#set Angle variable to: 
+# -90 for a Clockwise Rotation
+# -270 for Counter-Clockwise Rotation 
+
+
+
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+    for record in event['Records']:
+        # Parse nested event structure
+        s3_event = json.loads(json.loads(record['body'])['Message'])['Records'][0]
+        
+        # Extract S3 details
+        bucket = s3_event['s3']['bucket']['name']
+        key = s3_event['s3']['object']['key']
+        
+        if not key.lower().endswith('.gif'):
+            continue  # Skip non-GIF files
+        
+        # Get and rotate image
+        image_data = s3.get_object(Bucket=bucket, Key=key)['Body'].read()
+        image = Image.open(io.BytesIO(image_data))
+        rotated_image = image.rotate(Angle, expand=True)
+        
+        # Save and upload rotated image
+        buffer = io.BytesIO()
+        rotated_image.save(buffer, format='GIF')
+        buffer.seek(0)
+        
+        new_key = f"{FolderName}/{key.split('/')[-1].replace('.gif', 'TwistedClockWise.gif')}"
+        s3.put_object(Bucket = BucketName, Key=new_key, Body=buffer)
+
+    return {'statusCode': 200, 'body': json.dumps('Processing complete')}
+```
+**Notice that nothing is saved and nothing will work until you hit 'Deploy'
