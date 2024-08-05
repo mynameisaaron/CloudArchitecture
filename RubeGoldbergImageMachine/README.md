@@ -80,7 +80,21 @@ With the role created, and these three permissions attached to it, we can now se
 We will assign this role to the lambda, thereby giving it all of these permissions. (hopfully this is clear)
 
 ## Lambda Deployment
-
-
+Find 'Lambda' in the AWS console, and go straight to the 'Layers' section  ==> 'Create Layer' \
+![](ReadMe_Files/layer2.jpg) \
+![](ReadMe_Files/layer1.jpg) \
+![](ReadMe_Files/layer3.jpg)  \
+This is a prepackaged 'Layer' that contains the Pillow Library methods for Python, these popular Python methods are used for image manipulation.  Both of our Lambda Functions will use this library/layer.  You can see that the Layer is packaged as a zip file.  It was made on my local machine with Python's vitulization tool 'venv' to work perfectly with the Lambda runtime.  You can miss all of that, and upload the layer directly from my S3 bucket, copy and paste.
+```
+https://therubegoldberg.s3.us-east-2.amazonaws.com/Pillow-Layer.zip
+```
+Our layer set up, and we are already in the Lambda service. \
+Find 'Functions' =and=> Create Function ![](ReadMe_Files/lambda1.jpg) \
+Name your function, choose the Python 3.10 library (I used the older Python 3.10 environment becuase AWS is still having compatibility issues with later versions)
+\
+Assign it the 'ImageMachine_Lambda_Role' which is the IAM Role that we had just created.
+ \
+![](ReadMe_Files/lambda2.jpg) \
+![](ReadMe_Files/lambda3.jpg) \
 
 
