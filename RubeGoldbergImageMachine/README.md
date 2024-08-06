@@ -148,7 +148,7 @@ def lambda_handler(event, context):
         rotated_image.save(buffer, format='GIF')
         buffer.seek(0)
         
-        new_key = f"{FolderName}/{key.split('/')[-1].replace('.gif', 'TwistedClockWise.gif')}"
+        new_key = f"{FolderName}/{key.split('/')[-1].replace('.gif', FolderName + '.gif')}"
         s3.put_object(Bucket = BucketName, Key=new_key, Body=buffer)
 
     return {'statusCode': 200, 'body': json.dumps('Processing complete')}
