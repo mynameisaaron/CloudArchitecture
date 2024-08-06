@@ -1,25 +1,25 @@
 ![](ReadMe_Files/rbg.jpg)
 
 # The Rube Goldberg Image Machine
-This is an exploration and documentation of an Event-Driven and auto-scalling Architecture on the AWS Cloud.  (And 100% Serverless)
+This is an exploration and documentation of an Event-Driven and auto-scaling Architecture on the AWS Cloud.  (And 100% Serverless)
 \
 Before exploring the Architecture, a quick summary of what goes on here:
 1) An Image is dropped into an S3 Bucket.
 2) Two processed images are returned: one rotated 90 degrees Clockwise, and the other 90 degrees Counter-Clockwise \
-Whats the big deal?      Well . . .
+What's the big deal?      Well . . .
 
 We do not have to provision a server, so we are only using (and paying for) the compute as it's needed.
 
 and 
 
-This is scalable - one can certainly create this operation with a tiny program runing on a computer from 1995,  but how would it handle 2 million requests in a five-minute period?
+This is scalable - one can certainly create this operation with a tiny program running on a computer from 1995,  but how would it handle 2 million requests in a five-minute period?
 
-The roation of the image process could be replaced with whatever process you want, it is the fault-tolerent and scalable architecture that is impressive.
+The rotation of the image process could be replaced with whatever process you want, it is the fault-tolerant and scalable architecture that is impressive.
 
-Lets get into the architecture.
+Let's get into the architecture.
 # Overview
 ![](ReadMe_Files/overview.jpg)
-The oldest AWS service, The S3 Bucket, is infinatly explanding object storage.  It also has a powerful events feature. \
+The oldest AWS service, The S3 Bucket, is infinitely expanding object storage.  It also has a powerful events feature. \
 Events can be configured for any action on an object (created, deleted, manipulated, etc.)
 \
 When these events happen, the bucket can send an events message (with metadata about the file attached) to three different targets: a Lambda Function, an SQS Queue, or an SNS Topic as we will be doing here.   
@@ -27,14 +27,14 @@ When these events happen, the bucket can send an events message (with metadata a
 #### SNS/SQS Fan-Out
 Rather than send our S3 event message directly to the function to start processing the images, we have implemented a "SNS/SQS Fanout" Architecture.
 This well documented configuration allows for:
-1) **Decoupled modularity** - we can easily expland the funcionality by adding more subscribers to the SNS queue to do whatever we want without any interuption or need to change the existing code or other configurations.
-2) **Fault Tolerance** - Lets say there is no SNS/SQS handeling mechanism, and we designed the S3 event to directly trigger the lambda functions.
+1) **Decoupled modularity** - we can easily expand the functionality by adding more subscribers to the SNS queue to do whatever we want without any interruption or need to change the existing code or other configurations.
+2) **Fault Tolerance** - Let's say there is no SNS/SQS handling mechanism, and we designed the S3 event to directly trigger the lambda functions.
  \
- It would work fine until we have a massive burst of traffic e.g. more than a 1000 images are dropped into the bucket per second. In a few mintues or less, this would crash.
+ It would work fine until we have a massive burst of traffic e.g. more than a thousand images are dropped into the bucket per second. In a few minutes or less, this would crash.
 \
  Yes, our lambda functions can scale out to a maximum of 1000 Concurrent functions, but that would not be enough.
 \
- With the SQS handling and pushing the messages to our Lambdas functions, we have a very fault-tolerant approach which is garuenteeing delivery and receiving of messages. Each lambda instance confirms that compute process is successful for each and every event on the SQS.
+ With the SQS handling and pushing the messages to our Lambdas functions, we have a very fault-tolerant approach which is guaranteeing delivery and receiving of messages. Each lambda instance confirms that compute process is successful for each and every event on the SQS.
 
 ## Deployment (from the AWS console)
 Let’s begin by setting up the bucket, followed by the Lambdas, SQS, and then finally SNS.
@@ -55,9 +55,9 @@ the concept is essentially the same, but we will be doing this whole process wit
 \
 \
 Let's put the bucket down and sort out our Lambda Functions. \
-Now, our Lambda Functions will need to interact directly with three other services: our S3 Bucket, the SQS Queue, and Cloudwatch for logging. Let's create an IAM Role that has full permissions for these three services in order to quickly get this architecture running.
+Now, our Lambda Functions will need to interact directly with three other services: our S3 Bucket, the SQS Queue, and CloudWatch for logging. Let's create an IAM Role that has full permissions for these three services in order to quickly get this architecture running.
 \
-Ofcourse in a production settting, you would want to go back granulate the security policy to least amount of privledges neccissary to function. 
+Of course, in a production setting, you would want to go back granulate the security policy to least amount of privileges necessary to function. 
 \
 Open the IAM service and create a 'Role' \  We will set the permissions to the role, and later when we have our Lambda, we will give this role to it. 
 \
@@ -74,23 +74,23 @@ Now find and add the permissions to the role, it looks like this: \
 \
 ![](ReadMe_Files/iam5.jpg)
 \
-name this role something like: "ImageMachine_Lambda_Role"
+Name this role something like: "ImageMachine_Lambda_Role"
 \
 With the role created, and these three permissions attached to it, we can now set up the lambda. \
-We will assign this role to the lambda, thereby giving it all of these permissions. (hopfully this is clear)
+We will assign this role to the lambda, thereby giving it all of these permissions. (hopefully this is clear)
 
 ## Lambda Deployment
 Find 'Lambda' in the AWS console, and go straight to the 'Layers' section  ==> 'Create Layer' \
 ![](ReadMe_Files/layer2.jpg) \
 ![](ReadMe_Files/layer1.jpg) \
 ![](ReadMe_Files/layer3.jpg)  \
-This is a prepackaged 'Layer' that contains the Pillow Library methods for Python, these popular Python methods are used for image manipulation.  Both of our Lambda Functions will use this library/layer.  You can see that the Layer is packaged as a zip file.  It was made on my local machine with Python's vitulization tool 'venv' to work perfectly with the Lambda runtime.  You can miss all of that, and upload the layer directly from my S3 bucket, copy and paste.
+This is a prepackaged 'Layer' that contains the Pillow Library methods for Python, these popular Python methods are used for image manipulation.  Both of our Lambda Functions will use this library/layer.  You can see that the Layer is packaged as a zip file.  It was made on my local machine with Python's virtualization tool 'venv' to work perfectly with the Lambda runtime.  You can miss all of that, and upload the layer directly from my S3 bucket, copy and paste.
 ```
 https://therubegoldberg.s3.us-east-2.amazonaws.com/Pillow-Layer.zip
 ```
 Our layer set up, and we are already in the Lambda service. \
 Find 'Functions' =and=> Create Function ![](ReadMe_Files/lambda1.jpg) \
-Name your function, choose the Python 3.10 library (I used the older Python 3.10 environment becuase AWS is still having compatibility issues with later versions)
+Name your function, choose the Python 3.10 library (I used the older Python 3.10 environment because AWS is still having compatibility issues with later versions)
 \
 Assign it the 'ImageMachine_Lambda_Role' which is the IAM Role that we had just created.
  \
@@ -102,9 +102,9 @@ You can find a diagram of your Lambda on the screen and click the Layer area, fi
 ![](ReadMe_Files/lambda4.jpg)
 ![](ReadMe_Files/lambda5.jpg)
 Here is the code. \
-**Notice that there are three conspicous variables at the top of the function. \
+**Notice that there are three conspicuous variables at the top of the function. \
 make sure that the 'BucketName' variable - is the exact name of your bucket. \
-When creating the second Lambda, the counterclockwise lambda function, the variable 'FolderName' should be changed and the 'Angle' variable should be an integer of -270 \
+When creating the second Lambda, the counterclockwise lambda function, the variable 'FolderName' should be changed and the 'Angle' variable should be an integer of -270 
 
 
 
@@ -157,19 +157,19 @@ def lambda_handler(event, context):
 You should have two functions now, the 'RotateImageClockwise' function that we just made together, and the 'RotateCounterClock' that you figured out how to do using the same steps. \
 Our Lambdas are up. . .  Even if you have one Lambda up and you made it this far, the rest is a very quick and easy.
 \
-Let's finish this, starting with the SQS Queue, Followed by the SNS Topic, and finnaly the S3 event (all takes two seconds) 
+Let's finish this, starting with the SQS Queue, followed by the SNS Topic, and finally the S3 event (all takes two seconds) 
 \
 To get on the same page, let's peek at a copy of the Overview - we are about to fill in the middle of the architecture so our event can trigger, messages can pass through, and the image gets processed as expected.
 ![](ReadMe_Files/overview.jpg)
 ## SQS/SNS Fanout Deployment
-Open the SQS service and create a Queue (standard) and name it, and name it similarly to the Lambda Function that this queue is going to message.  "Clockwise_Queue" should fire messageses at the Lambda that is rotating it clockwise.  
+Open the SQS service and create a Queue (standard) and name it, and name it similarly to the Lambda Function that this queue is going to message.  "Clockwise_Queue" should fire messages at the Lambda that is rotating it clockwise.  
 \
 ![](ReadMe_Files/sqs1.jpg) 
 \
 ![](ReadMe_Files/queue2.jpg)
 \
-As with the IAM Role that we created with the Lambda, we are going to use a very permisive resource policy to get our architecuture running. \
-paste this open-door resourse policy in the intial queue set up, this can be changed and securly granulated after successful set-up
+As with the IAM Role that we created with the Lambda, we are going to use a very permissive resource policy to get our architecture running. \
+Paste this open-door resource policy in the initial queue set up, this can be changed and securely granulated after successful set-up
 ```json
 {
   "Version": "2012-10-17",
@@ -189,19 +189,19 @@ paste this open-door resourse policy in the intial queue set up, this can be cha
 
 ![](ReadMe_Files/queue3.jpg) \
 With the SQS Queue set up, let's configure the "Lambda Trigger" which you will see right on the configuration menu of your new queue. \
-Find your corrisponding Lambda on the convenient dropdown list and your good to go. \
+Find your corresponding Lambda on the convenient dropdown list and your good to go. \
 ![](ReadMe_Files/queue4.jpg) \
 ![](ReadMe_Files/queue5.jpg) \
-It's streight forwared, you should be good to go, and you can repeat this process with the same access policy to work with your other Lambda function.
+It's straight forward, you should be good to go, and you can repeat this process with the same access policy to work with your other Lambda function.
 \
-Now let's open the SNS now and create a topic for both of our SQS queus to subscribe to. \
+Now let's open the SNS now and create a topic for both of our SQS queues to subscribe to. \
 SNS is a 'Pub/Sub' configuration. 
 ### SNS
 
 ![](ReadMe_Files/SNS1.jpg) \
 Name your Standard topic
 ![](ReadMe_Files/SNS2.jpg) \
-Here, again like the SQS, paste in the permissive access policiy to get this moving
+Here, again like the SQS, paste in the permissive access policy to get this moving
 ![](ReadMe_Files/SNS3.jpg) \
 Pasteable Access Policy (same as the screen shot)
 ```json
@@ -228,12 +228,12 @@ Open your topic and create a subscription on it
 
 ![](ReadMe_Files/SNS5.jpg) \
 
-If both of your SQS Queues are set up, create another subscribtion for the other queue the same as we just laid out. \
+If both of your SQS Queues are set up, create another subscription for the other queue the same as we just laid out. \
 
 There is one very last thing to do (it will take two seconds), Hope you can guess what it is. 
 
 ## The S3 Event 
-Pick up your bucket, the one you made at the begining. \
+Pick up your bucket, the one you made at the beginning. \
 ![](ReadMe_Files/bucket.jpg) \
 Go to Properties \
 ![](ReadMe_Files/event1.jpg) \
@@ -245,4 +245,4 @@ Check the **ALL object** create events \
 ![](ReadMe_Files/event4.jpg) \
 This event should be destined for our SNS topic that we just created, find your SNS on the dropdown list, save it. \
 ![](ReadMe_Files/event5.jpg) \
-You are now ready to experience the power of Event driven cloud architecture with the Rube Goldberg Image Machine.
+You are now ready to experience the power of Event-driven cloud architecture with the Rube Goldberg Image Machine.
