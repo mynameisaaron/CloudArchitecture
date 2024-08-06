@@ -157,6 +157,45 @@ def lambda_handler(event, context):
 You should have two functions now, the 'RotateImageClockwise' function that we just made together, and the 'RotateCounterClock' that you figured out how to do using the same steps. \
 Our Lambdas are up. . .  Even if you have one Lambda up and you made it this far, the rest is a very quick and easy.
 \
-Let's finish this, starting with the SQS Queue, Followed by the SNS Topic, and finnaly the S3 event (all takes two seconds)
-
+Let's finish this, starting with the SQS Queue, Followed by the SNS Topic, and finnaly the S3 event (all takes two seconds) 
+\
+To get on the same page, let's peek at a copy of the Overview - we are about to fill in the middle of the architecture so our event can trigger, messages can pass through, and the image gets processed as expected.
+![](ReadMe_Files/overview.jpg)
 ## SQS/SNS Fanout Deployment
+Open the SQS service and create a Queue (standard) and name it, and name it similarly to the Lambda Function that this queue is going to message.  "Clockwise_Queue" should fire messageses at the Lambda that is rotating it clockwise.  
+\
+![](ReadMe_Files/sqs1.jpg) 
+\
+![](ReadMe_Files/queue2.jpg)
+\
+As with the IAM Role that we created with the Lambda, we are going to use a very permisive resource policy to get our architecuture running. \
+paste this open-door resourse policy in the intial queue set up, this can be changed and securly granulated after successful set-up
+```json
+{
+  "Version": "2012-10-17",
+  "Id": "Policy1721167749456",
+  "Statement": [
+    {
+      "Sid": "Stmt1721167745928",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "SQS:SendMessage",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+
+![](ReadMe_Files/queue3.jpg) \
+With the SQS Queue set up, let's configure the "Lambda Trigger" which you will see right on the configuration menu of your new queue. \
+Find your corrisponding Lambda on the convenient dropdown list and your good to go. \
+![](ReadMe_Files/queue4.jpg) \
+![](ReadMe_Files/queue5.jpg) \
+It's streight forwared, you should be good to go, and you can repeat this process with the same access policy to work with your other Lambda function.
+\
+Now let's open the SNS now and create a topic for both of our SQS queus to subscribe to. \
+SNS is a 'Pub/Sub' configuration. 
+### SNS
+
+![](ReadMe_Files/SNS1.jpg) \
