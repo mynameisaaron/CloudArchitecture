@@ -232,4 +232,17 @@ If both of your SQS Queues are set up, create another subscribtion for the other
 
 There is one very last thing to do (it will take two seconds), Hope you can guess what it is. 
 
-## The S3 Event
+## The S3 Event 
+Pick up your bucket, the one you made at the begining. \
+![](ReadMe_Files/bucket.jpg) \
+Go to Properties \
+![](ReadMe_Files/event1.jpg) \
+Click “Create Event Notification” \
+![](ReadMe_Files/event2.jpg) \
+Name your event, and if you’re like me, you can restrict the event to trigger only when a .gif image is dropped in. \
+![](ReadMe_Files/event3.jpg) \
+Check the **ALL object** create events \
+![](ReadMe_Files/event4.jpg) \
+This event should be destined for our SNS topic that we just created, find your SNS on the dropdown list, save it. \
+![](ReadMe_Files/event5.jpg) \
+You are now ready to experience the power of Event driven cloud architecture with the Rube Goldberg Image Machine.
