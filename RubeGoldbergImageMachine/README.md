@@ -199,3 +199,37 @@ SNS is a 'Pub/Sub' configuration.
 ### SNS
 
 ![](ReadMe_Files/SNS1.jpg) \
+Name your Standard topic
+![](ReadMe_Files/SNS2.jpg) \
+Here, again like the SQS, paste in the permissive access policiy to get this moving
+![](ReadMe_Files/SNS3.jpg) \
+Pasteable Access Policy (same as the screen shot)
+```json
+{
+  "Version": "2012-10-17",
+  "Id": "Policy1721167043463",
+  "Statement": [
+    {
+      "Sid": "Stmt1721167038216",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "sns:Publish",
+      "Resource": "*"
+    }
+  ]
+}
+```
+Now you've got your SNS Topic. \
+Open your topic and create a subscription on it
+
+![](ReadMe_Files/SNS4.jpg) \
+**Protocol :** SQS \
+**Endpoint :** your SQS Queue that we just made
+
+![](ReadMe_Files/SNS5.jpg) \
+
+If both of your SQS Queues are set up, create another subscribtion for the other queue the same as we just laid out. \
+
+There is one very last thing to do (it will take two seconds), Hope you can guess what it is. 
+
+## The S3 Event
