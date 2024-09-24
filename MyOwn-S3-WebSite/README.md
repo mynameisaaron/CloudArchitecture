@@ -19,4 +19,45 @@ Using an S3 bucket to host a website is not re-inventing the wheel.  Besides the
 This is not an extensive list, I could go on, let's get into it!
 
 ## Get your Files into an S3 Bucket
+In the AWS Web-console, navigate to the S3 Service and find the big yellow create a bucket button.  Although S3 is a regional-service, they must have a unique name to the entire AWS cloud.
+![](ReadMe_Files/s3a.jpg)
+\
+In this stage make sure the "Block all public access" is unchecked.
+![](ReadMe_Files/s3b.jpg)
+\
+add your index.html file.
+\
+![](ReadMe_Files/s3c.jpg)
+\
+Congradulations, as you know you are already hosting your resoucres in the cloud, but we need to configure the bucket policy to expose your bucket with permissions to allow your content to be accessible from outside of your AWS account. \
+You can easily find your bucket policy configurations in bucket's Permissions tab. \
+It will be empty, becuase the bucket is created without any permissions. \
+I have given it a very permissive policy to get to the result of seeing your index.html file publically hosted. \
+Here is the polciy which allows: anyone to GetObjects from this bucket.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::publicwebsitedemo1/*"
+        }
+    ]
+}
+```
 
+![](ReadMe_Files/s3e.jpg)
+\
+To create your URL endpoint.  Navigate to the Properties tab of your bucket and edit & enable Static Website Hosting.
+\
+![](ReadMe_Files/s3f.jpg)
+![](ReadMe_Files/s3g.jpg)
+\
+After saving this configuration, out comes your public URL.
+![](ReadMe_Files/s3h.jpg)
+\
+Have a look!
+\
+[http://publicwebsitedemo1.s3-website.us-east-2.amazonaws.com/](http://publicwebsitedemo1.s3-website.us-east-2.amazonaws.com/)
