@@ -70,14 +70,16 @@ After saving this configuration, out comes your public URL.
 \
 Have a look!
 \
-[http://publicwebsitedemo1.s3-website.us-east-2.amazonaws.com/](http://publicwebsitedemo1.s3-website.us-east-2.amazonaws.com/)
+[http://aaronbrightman.solutions.s3-website.us-east-2.amazonaws.com/](http://aaronbrightman.solutions.s3-website.us-east-2.amazonaws.com/)
 \
 #Phase 2
 ## Your S3-Website + (Route53 + ACM + CloudFront)
 ![](ReadMe_Files/notsecure.jpg)
 We have a publicly available site, it functions fine, but as it stands:
 a) it is not using an SSL certified https protocol - so all data between your bucket and the client is being sent in unencrypted plain-text.  Maybe not the biggest of deals for your static website, but in modern browsers there is a warning displayed that is unsettling  for the client to view.
-b) you do not have your custom URL, but this ugly bucket address.
+b) your website is not utilizing AWS's full infrastructure to serve your site, here I am talking about AWS's CDN service CloudFront, with its 600+ 'Points-of-Presence' i.e. Globally districuted edge locations to Cache your site for excellent download speeds. \
+
+
 \
 Let's address these two issues by:
 1) Buying/Registering a custom domain in Route53, and creating a Hosted Zone for our DNS records.
