@@ -72,6 +72,15 @@ Have a look!
 \
 [http://aaronbrightman.solutions.s3-website.us-east-2.amazonaws.com/](http://aaronbrightman.solutions.s3-website.us-east-2.amazonaws.com/)
 \
+## Route53 for custom domain
+In the AWS console -> Navigate to the Route53 service (AWS's DNS Service) to register your custom domain name. \
+(for approximately 15 USD) 
+![](ReadMe_Files/domain1.jpg)
+![](ReadMe_Files/domain2.jpg)
+
+
+
+
 #Phase 2
 ## Your S3-Website + (Route53 + ACM + CloudFront)
 ![](ReadMe_Files/notsecure.jpg)
@@ -82,8 +91,7 @@ b) your website is not utilizing AWS's full infrastructure to serve your site, h
 
 \
 Let's address these two issues by:
-1) Buying/Registering a custom domain in Route53, and creating a Hosted Zone for our DNS records.
-2) Applying for an SSL certificate from Amazon Certificate Manager.
-3) Creating a CloudFront distribution, a CDN, which will sit between our Client and the S3 bucket. (This step is necessary because AWS will not allow you to use your SSL Certificate and DNS Records directly with the S3 bucket, which is an engineered restriction. \
+1) Applying for an SSL certificate from Amazon Certificate Manager.
+2) Creating a CloudFront distribution, a CDN, which will sit between our Client and the S3 bucket. (This step is necessary because AWS will not allow you to use your SSL Certificate and DNS Records directly with the S3 bucket, which is an engineered restriction. \
 However, the benefits of the CDN distribution are incredibly consistent performance and scalability.
 Let's get into it!
