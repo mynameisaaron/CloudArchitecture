@@ -77,6 +77,13 @@ In the AWS console -> Navigate to the Route53 service (AWS's DNS Service) to reg
 (for approximately 15 USD) 
 ![](ReadMe_Files/domain1.jpg)
 ![](ReadMe_Files/domain2.jpg)
+\
+![](ReadMe_Files/domain3.jpg)
+With your $15 domain registered, create a Hosted Zone in Route53.  A Hosted zone is the definitive location for all of the DNS records for your website, each website you've hosted on AWS will have its DNS records organized in its own Hosted Zone. \
+The name of the hosted zone, should be the same as your newly purchased URL (and the S3 bucket the files are hosted on) \
+![](ReadMe_Files/domain4.jpg)
+![](ReadMe_Files/domain5.jpg)
+
 
 
 
