@@ -18,8 +18,18 @@ Using an S3 bucket to host a website is not re-inventing the wheel.  Besides the
 
 This is not an extensive list, I could go on, let's get into it!
 
+# Phase 1 (Get your website + personal URL up)
+This is the cheapest and quickest option only using two AWS services : S3 & Route53 \
+We are going to quickly get a static webpage up without configuring TLS encription or CDN Caching  
+(Which we will look at in Phase 2) \
+![](ReadMe_Files/phase1diagram.jpg)
+
+
+
+
 ## Get your Files into an S3 Bucket
-In the AWS Web-console, navigate to the S3 Service and find the big yellow create a bucket button.  Although S3 is a regional-service, they must have a unique name to the entire AWS cloud.
+In the AWS Web-console, navigate to the S3 Service and find the big yellow create a bucket button.  Although S3 is a regional-service, they must have a unique name to the entire AWS cloud, and in our case you will want to name your bucket the desired name of your website. \
+(please note in my screen shots I just used the generic name "publicwebsitedemo1" instead of my own URL, the name of your S3 Bucket should be identical to the URL you want to register) 
 ![](ReadMe_Files/s3a.jpg)
 \
 In this stage make sure the "Block all public access" is unchecked.
@@ -62,6 +72,7 @@ Have a look!
 \
 [http://publicwebsitedemo1.s3-website.us-east-2.amazonaws.com/](http://publicwebsitedemo1.s3-website.us-east-2.amazonaws.com/)
 \
+#Phase 2
 ## Your S3-Website + (Route53 + ACM + CloudFront)
 ![](ReadMe_Files/notsecure.jpg)
 We have a publicly available site, it functions fine, but as it stands:
