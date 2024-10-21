@@ -19,7 +19,7 @@
    I like to start like this
    ```
    I've just uploaded myEntireWebsiteCode.txt, it contains the entire code for my website.
-   Please confirm that you have studied it thouroughly,
+   Please confirm that you have studied it thoroughly,
    and I will have follow-up technical questions about the html and CSS styling starting with the index.html file,
    specifically the <div class='whatever'> element.
    Please confirm so we can begin.
