@@ -3,7 +3,7 @@ My front-end AI prompting solution and code can be found [here](README-TECH.md),
 ![](ReadMe_Files/hall9000.jpg)
 
 
-## AI Expertise and “Prompt Engineering” & Observations on the un-folding AI situation
+## AI Expertise vs “Prompt Engineering” & other bbservations on the un-folding AI situation
 Like anyone else who has had the interesting privilege to be alive in the past year and a half, I have lots of thoughts, memories, questions, and opinions on the ongoing AI situation. \
 After recently listening to a podcast of MIT students promoting their new AI powered IDE, I realized that, even among the brightest and most talented people working under in the field of AI, there are very precious few people who understand how this all works under the hood. \
 The MIT engineering and computer science students had created an AI powered IDE, Great! \
