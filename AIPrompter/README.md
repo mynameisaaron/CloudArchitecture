@@ -1,5 +1,5 @@
 # AI Prompter
-My front-end AI prompting solution and code can be found here, but first a few words on AI
+My front-end AI prompting solution and code can be found [here](README-TECH.md), but first a few words on AI
 ![](ReadMe_Files/hall9000.jpg)
 
 
