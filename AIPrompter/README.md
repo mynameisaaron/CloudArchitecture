@@ -21,7 +21,7 @@ and the technical vocabulry to describe what is going on in a segment of code. \
 The benefit of AI might be that we will not have to do the most tedious, mindnumbing, and time consuming aspects of coding, and that is absolutly amazing, but AI is not going to do everything for us. 
 We will have to have a high-level understanding and descriptive vocabulary in order to technically and accuratly communicate with AI tools to get our desired solutions.  
 
-4) There are precious few people how understand this technology under the hood. \
+4) There are precious few people who understand this technology under the hood. \
    After listening to this long-form interview with MIT students marketing a fancy AI prompter, I realized that even at the worlds greatest engineering university, there must only be a small handful of individuals who know what is happening under the hood i.e. what is the 'compute' behind the prompting. \
 I am the son of a very talented electrical-engineer in the automotive space.  My father has a deep understanding of physics as well. \
 I can share from a first-princial point of view, that the tiny number of people who are natual-born engineering talents and who scrible physics equasions on napkins; they are likely not good at self-promoting, marketing, or even basic inter-personal communication .  I'm sure there are exceptions to this rule, but thats the general rule.  These talents that have spent their time and effort and have made personal sacrifices working to bring this technology to the masses will not be in the history books, and will be very hard to identify and find in the market place.
