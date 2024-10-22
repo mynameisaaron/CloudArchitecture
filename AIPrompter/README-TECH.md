@@ -12,7 +12,7 @@
     python AIPrompter.py /path/to/website/directory --html-css
    ```
 
-   Your text file of all the code of your website (including a table of contents of all the nested location of files) is ready to use for prompting.
+   Your text file of all the code of your website (including a table of contents of all the nested location of files) is ready to use for prompting.  After running the script, it will appear in the AIPrompter.py script's directory.
    Upload the file to your favorite AI, and start talking with it about your website.
    ![](ReadMe_Files/prompt.jpg)
 
