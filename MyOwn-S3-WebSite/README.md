@@ -86,7 +86,7 @@ The name of the hosted zone, should be the same as your newly purchased URL (and
 To keep this moving, without absorbing what's happening yet, let's first create the critical A Record that configures your Hosted Zone to point to your existing website. \
 Here we will use the AWS Proprietry 'Alias Record'  \
 The Alias Record is an expansion of the universal DNS 'A' Record.  Insead of using IP addresses to map to our existing site, we can point to our AWS hosted resource directly.  This improves security, efficientcy, and comes with AWS health checks for your site, free of charge.
-\
+
 
 ![](ReadMe_Files/domain5.jpg)
 
@@ -94,12 +94,13 @@ The Alias Record is an expansion of the universal DNS 'A' Record.  Insead of usi
 
 
 
-#Phase 2
+# Phase 2
 ## Your S3-Website + (Route53 + ACM + CloudFront)
 ![](ReadMe_Files/notsecure.jpg)
-We have a publicly available site, it functions fine, but as it stands:
-a) it is not using an SSL certified https protocol - so all data between your bucket and the client is being sent in unencrypted plain-text.  Maybe not the biggest of deals for your static website, but in modern browsers there is a warning displayed that is unsettling  for the client to view.
-b) your website is not utilizing AWS's full infrastructure to serve your site, here I am talking about AWS's CDN service CloudFront, with its 600+ 'Points-of-Presence' i.e. Globally districuted edge locations to Cache your site for excellent download speeds. \
+
+We have a publicly available site, it functions fine, but as it stands: \
+a) it is not using an SSL certified https protocol - so all data between your bucket and the client is being sent in unencrypted plain-text.  Maybe not the biggest of deals for your static website, but in modern browsers there is a warning displayed that is unsettling  for the client to view. \
+b) your website is not utilizing AWS's full infrastructure to serve your site, here I am talking about AWS's CDN service CloudFront, with its 600+ 'Points-of-Presence' i.e. Globally districuted edge locations to Cache your site for excellent download speeds. 
 
 
 \
@@ -108,3 +109,5 @@ Let's address these two issues by:
 2) Creating a CloudFront distribution, a CDN, which will sit between our Client and the S3 bucket. (This step is necessary because AWS will not allow you to use your SSL Certificate and DNS Records directly with the S3 bucket, which is an engineered restriction. \
 However, the benefits of the CDN distribution are incredibly consistent performance and scalability.
 Let's get into it!
+
+(Phase 2 - coming up soon)
